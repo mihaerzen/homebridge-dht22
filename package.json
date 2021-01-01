@@ -25,7 +25,9 @@
   "keywords": [
     "homebridge-plugin"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "node-dht-sensor": "git+https://github.com/Sly1024/node-dht-sensor.git#285a758064dbdd7fc4cb76988ad17447aa90e89a"
+  },
   "devDependencies": {
     "@types/node": "^14.14.6",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
