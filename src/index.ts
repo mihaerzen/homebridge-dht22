@@ -6,8 +6,7 @@ import {
   Logging,
   Service,
 } from 'homebridge';
-
-import { promises as Dht22Sensor } from 'node-dht-sensor';
+import {readSensor} from './readSensor';
 
 let hap: HAP;
 
@@ -17,24 +16,6 @@ let hap: HAP;
 export = (api: API) => {
   hap = api.hap;
   api.registerAccessory('Dht22Plugin', Dht22Plugin);
-};
-type ReadSensorResponse = {
-  temperature: number;
-  humidity: number;
-};
-
-let sensorReadPromise: null | Promise<ReadSensorResponse> = null;
-
-const readSensor = async (): Promise<ReadSensorResponse> => {
-  if (sensorReadPromise) {
-    return sensorReadPromise;
-  }
-
-  sensorReadPromise = Dht22Sensor.read(22, 4);
-  const response = await sensorReadPromise;
-  sensorReadPromise = null;
-
-  return response as ReadSensorResponse;
 };
 
 class Dht22Plugin implements AccessoryPlugin {
