@@ -1,7 +1,7 @@
 {
   "pluginAlias": "Dht22HomebridgePlugin",
-  "pluginType": "platform",
-  "singular": true,
+  "pluginType": "accessory",
+  "singular": false,
   "schema": {
     "type": "object",
     "properties": {
@@ -9,7 +9,7 @@
         "title": "Name",
         "type": "string",
         "required": true,
-        "default": "Example Dynamic Platform"
+        "default": "Dht22 sensor"
       }
     }
   }
