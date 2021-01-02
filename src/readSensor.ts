@@ -1,4 +1,4 @@
-import { promises as Dht22Sensor } from 'node-dht-sensor';
+import { promises as sensor } from 'node-dht-sensor';
 
 type ReadSensorResponse = {
     temperature: number;
@@ -7,12 +7,13 @@ type ReadSensorResponse = {
 
 let sensorReadPromise: null | Promise<ReadSensorResponse> = null;
 
-export const readSensor = async (): Promise<ReadSensorResponse> => {
+export const readSensor = async (type: number, pin: number): Promise<ReadSensorResponse> => {
+  // If already in progress
   if (sensorReadPromise) {
     return sensorReadPromise;
   }
 
-  sensorReadPromise = Dht22Sensor.read(22, 4);
+  sensorReadPromise = sensor.read(type, pin);
   const response = await sensorReadPromise;
   sensorReadPromise = null;
 

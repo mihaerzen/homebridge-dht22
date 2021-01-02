@@ -1,15 +1,15 @@
 {
   "displayName": "Dht22",
-  "name": "homebridge-dht22",
+  "name": "homebridge-dht-sensor",
   "version": "1.0.0",
-  "description": "Plugin for dht22 sensor.",
+  "description": "Plugin for dht sensor.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/mihaerzen/homebridge-dht22"
+    "url": "git://github.com/mihaerzen/homebridge-dht-sensor"
   },
   "bugs": {
-    "url": "https://github.com/mihaerzen/homebridge-dht22/issues"
+    "url": "https://github.com/mihaerzen/homebridge-dht-sensor/issues"
   },
   "engines": {
     "node": ">=10.17.0",
