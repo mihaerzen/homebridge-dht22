@@ -32,18 +32,23 @@ class DhtSensorPlugin implements AccessoryPlugin {
     this.sensorType = parseInt(config.sensorType as string, 10) || 22;
     this.sensorPin = parseInt(config.sensorPin as string, 10) || 4;
 
-    this.temperatureService = new hap.Service.TemperatureSensor(this.name);
-    this.humidityService = new hap.Service.HumiditySensor(this.name);
+    const {TemperatureSensor, HumiditySensor} = hap.Service;
+    this.temperatureService = new TemperatureSensor(this.name);
+    this.humidityService = new HumiditySensor(this.name);
 
     // create handlers for required characteristics
-    this.temperatureService.getCharacteristic(hap.Characteristic.CurrentTemperature)
+    const {CurrentTemperature, CurrentRelativeHumidity} = hap.Characteristic;
+    this.temperatureService.getCharacteristic(CurrentTemperature)
       .on('get', this.handleCurrentTemperatureGet.bind(this));
 
-    this.humidityService.getCharacteristic(hap.Characteristic.CurrentRelativeHumidity)
+    this.humidityService.getCharacteristic(CurrentRelativeHumidity)
       .on('get', this.handleCurrentRelativeHumidityGet.bind(this));
 
-    this.log.info('config', config);
-    this.log.info('Finished initializing!');
+    setInterval(async () => {
+      const { temperature, humidity } = await this.readSensor();
+      this.humidityService.setCharacteristic(CurrentRelativeHumidity, humidity);
+      this.temperatureService.setCharacteristic(CurrentTemperature, temperature);
+    }, 60 * 1000);
   }
 
   async readSensor() {
@@ -54,14 +59,12 @@ class DhtSensorPlugin implements AccessoryPlugin {
    * Handle requests to get the current value of the "Current Temperature" characteristic
    */
   async handleCurrentTemperatureGet(callback) {
-    this.log.debug('Triggered GET CurrentTemperature');
     const { temperature } = await this.readSensor();
 
     callback(null, temperature);
   }
 
   async handleCurrentRelativeHumidityGet(callback) {
-    this.log.debug('Triggered GET CurrentRelativeHumidity');
     const { humidity } = await this.readSensor();
 
     callback(null, humidity);
